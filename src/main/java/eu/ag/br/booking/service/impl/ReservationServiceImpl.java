@@ -9,9 +9,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.google.common.collect.Lists;
 
 import eu.ag.br.booking.common.ObjectConverters;
 import eu.ag.br.booking.common.ReservationStatusType;
