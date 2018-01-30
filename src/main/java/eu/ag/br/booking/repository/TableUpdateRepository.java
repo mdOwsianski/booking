@@ -19,12 +19,12 @@ public interface TableUpdateRepository extends JpaRepository<Table, Integer> {
 
 	@Transactional
 	@Modifying
-	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.EMPTY where t.id= :id ")
+	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.EMPTY where t.id= :id")
 	Integer markEmpty(@Param("id") Long tableId);
 	
 	@Transactional
 	@Modifying
-	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.RESERVED where t.id= :id ")
+	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.RESERVED where t.id= :id")
 	Integer markReserved(@Param("id") Long tableId);
 
 	/**
@@ -32,15 +32,15 @@ public interface TableUpdateRepository extends JpaRepository<Table, Integer> {
 	 */
 	@Transactional
 	@Modifying
-	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.BUSY where t.id= :id ")
-	Integer markBusy(Long tableId);
+	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.BUSY where t.id= :id")
+	Integer markBusy(@Param("id") Long tableId);
 
 	/**
 	 * @param tableId
 	 */
 	@Transactional
 	@Modifying
-	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.UKNOW where t.id= :id ")
-	Integer markUknow(Long tableId);
+	@Query("update Table t set t.status=eu.ag.br.booking.common.StatusType.UKNOW where t.id= :id")
+	Integer markUknow(@Param("id") Long tableId);
 	
 }
