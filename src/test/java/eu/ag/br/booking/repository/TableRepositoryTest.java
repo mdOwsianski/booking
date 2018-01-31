@@ -179,7 +179,7 @@ public class TableRepositoryTest {
 	@Test
 	public void shouldFindEmptyTables() {
 		
-		List<Table> emptyTables = Lists.newArrayList();
+		List<Table> savedEmptyTablesList = Lists.newArrayList();
 		
 		Table savedEmptyTable1 = tableRepository.save(TestHelper.createTable(2L, StatusType.EMPTY));
 		Table savedEmptyTable2 = tableRepository.save(TestHelper.createTable(3L, StatusType.EMPTY));
@@ -196,11 +196,12 @@ public class TableRepositoryTest {
 			assertNotNull(savedEmptyTable5);
 			assertNotNull(savedEmptyTable6);
 			
-			emptyTables.add(savedEmptyTable1);
-			emptyTables.add(savedEmptyTable2);
-			emptyTables.add(savedEmptyTable3);
-			emptyTables.add(savedEmptyTable4);
-			emptyTables.add(savedEmptyTable5);
+			savedEmptyTablesList.add(savedEmptyTable1);
+			savedEmptyTablesList.add(savedEmptyTable2);
+			savedEmptyTablesList.add(savedEmptyTable3);
+			savedEmptyTablesList.add(savedEmptyTable4);
+			savedEmptyTablesList.add(savedEmptyTable5);
+			savedEmptyTablesList.add(savedEmptyTable6);
 		}
 		
 		
@@ -212,8 +213,8 @@ public class TableRepositoryTest {
 		
 		List<Table> findEmptyTables = tableRepository.findEmptyTables();
 		assertTrue(CollectionUtils.isNotEmpty(findEmptyTables));
-		assertEquals(emptyTables.size(), findEmptyTables.size());
-		assertTrue(CollectionUtils.isEqualCollection(emptyTables, findEmptyTables));
+		assertEquals(savedEmptyTablesList.size(), findEmptyTables.size());
+		assertTrue(CollectionUtils.isEqualCollection(savedEmptyTablesList, findEmptyTables));
 	}
 
 }
