@@ -84,23 +84,11 @@ public class ReservationUpdaterTest {
 	@Test
 	public void shouldUpdatePeopleInReservation() {
 		
-		Owner savedOwner = ownerRepository.save(TestHelper.createOwner("admin"));
-		
-		
 		Table createdBusyTable = TestHelper.createBusyTable(100L);
 		Table savedBusyTable = TableSaver.create(tableService).save(createdBusyTable);
 		BookingTableDTO bookingTableDTO = TestHelper.createBookingTableDTO(savedBusyTable.getId(), 10L);
 		
-		
-		Reservation reservation = TestHelper
-									.createReservation(bookingTableDTO, ReservationStatusType.DURING);
-		
-		reservation.setOwner(savedOwner);
-		
 		List<Reservation> allActiveReservations = reservationService.getAllActiveReservations();
-		assertTrue(" Reservations're not empty. ",CollectionUtils.isEmpty(allActiveReservations));
-		
-		Reservation savedReservation = reservationService.save(reservation);
 		
 		allActiveReservations = reservationService.getAllActiveReservations();
 		assertTrue(" Reservations're empty. ",CollectionUtils.isNotEmpty(allActiveReservations));
@@ -143,21 +131,40 @@ public class ReservationUpdaterTest {
 		Date startDate = savedReservation.getStartDate();
 		Date added2MonthsToDate = TestHelper.changeDate(startDate, Calendar.MONTH, 2);
 		
-		ResponseEntity<EditReservationResponse> updateReservationDate = ReservationUpdater
-																			.create(reservationService, savedReservation.getId())
-																			 .updateReservationDate(added2MonthsToDate, null);
+		ReservationUpdater reservationUpdater = ReservationUpdater
+													.create(reservationService, 
+															savedReservation.getId());
 		
-		assertNotNull(updateReservationDate);
-		assertEquals(HttpStatus.OK, updateReservationDate.getStatusCode());
 		
-		EditReservationResponse editReservationResponse = updateReservationDate.getBody();
-		assertEquals(Integer.valueOf(1), editReservationResponse.getUpdatedRows());
+		ResponseEntity<EditReservationResponse> updateReservationDate = reservationUpdater
+																			.updateReservationDate(added2MonthsToDate, null);
+		
+		TestHelper.assertOKEditReservationResponse(updateReservationDate, 1);
 		
 		Optional<Reservation> obtainedReservation = reservationRepository
 														.findById(savedReservation.getId());
 		
 		assertTrue(obtainedReservation.isPresent());
 		assertEquals(added2MonthsToDate, obtainedReservation.get().getStartDate());
+		
+		//start date after end date
+		{
+			Date nowDate = new Date();
+			Date endDate = nowDate;
+			
+			updateReservationDate = reservationUpdater
+										.updateReservationDate(added2MonthsToDate, endDate);
+			
+			TestHelper.assertOKEditReservationResponse(updateReservationDate, 1);
+
+			Optional<Reservation> findById = reservationRepository
+												.findById(savedReservation.getId());
+			
+			assertNotNull(findById);
+			assertTrue(findById.isPresent());
+			assertEquals(added2MonthsToDate, findById.get().getStartDate());
+			assertEquals(endDate, findById.get().getEndDate());
+		}
 	}
 
 }

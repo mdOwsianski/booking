@@ -1,17 +1,21 @@
 package eu.ag.br.booking;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import com.google.common.collect.Lists;
 
@@ -21,6 +25,8 @@ import eu.ag.br.booking.data.dto.BookingTableDTO;
 import eu.ag.br.booking.entities.Owner;
 import eu.ag.br.booking.entities.Reservation;
 import eu.ag.br.booking.entities.Table;
+import eu.ag.br.booking.repository.ReservationRepository;
+import eu.ag.br.booking.ws.rest.response.EditReservationResponse;
 
 public class TestHelper {
 
@@ -154,6 +160,16 @@ public class TestHelper {
 		assertEquals(parent.getId(), child.getId());
 		assertEquals(parent.getName(), child.getName());
 		assertTrue(CollectionUtils.isEqualCollection(parent.getReservations(), child.getReservations()));
+	}
+	
+	public static void assertOKEditReservationResponse(ResponseEntity<EditReservationResponse> updateReservationDate, 
+			int updatedRows) {
+		
+		assertNotNull(updateReservationDate);
+		assertEquals(HttpStatus.OK, updateReservationDate.getStatusCode());
+		
+		EditReservationResponse editReservationResponse = updateReservationDate.getBody();
+		assertEquals(updatedRows, editReservationResponse.getUpdatedRows().intValue());
 	}
 	
 }
