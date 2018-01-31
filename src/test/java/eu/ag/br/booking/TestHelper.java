@@ -3,6 +3,8 @@ package eu.ag.br.booking;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -23,6 +25,14 @@ import eu.ag.br.booking.entities.Table;
 public class TestHelper {
 
 	
+	public static Date changeDate(Date date, int field, int value) {
+		
+		Calendar instance = Calendar.getInstance();
+		instance.setTime(date);
+		instance.add(field,value);
+		
+		return instance.getTime();
+	}
 	
 	public static List<Reservation> createReservations(List<BookingTableDTO> tableDTOs, ReservationStatusType reservationStatus) {
 		

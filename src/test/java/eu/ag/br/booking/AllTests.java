@@ -7,7 +7,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ BookingOfTablesApplicationTests.class , 
 				eu.ag.br.booking.data.savers.AllTests.class,
-				eu.ag.br.booking.repository.AllTests.class})
+				eu.ag.br.booking.repository.AllTests.class,
+				eu.ag.br.booking.data.updaters.AllTests.class})
 public class AllTests {
 
 }
