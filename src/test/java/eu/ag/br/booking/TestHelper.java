@@ -82,6 +82,19 @@ public class TestHelper {
 		})
 		.collect(Collectors.toList());
 	}
+	
+	public static Table createBusyTable(Long id) {
+		return createTable(id, StatusType.BUSY);
+	}
+
+	public static Table createEmptyTable(Long id) {
+		return createTable(id, StatusType.EMPTY);
+	}
+
+	public static Table createReservedTable(Long id) {
+		return createTable(id, StatusType.RESERVED);
+	}
+
 	public static Table createTable(Long id, StatusType status) {
 		
 		Table table = new Table();
